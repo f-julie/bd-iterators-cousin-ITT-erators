@@ -16,13 +16,13 @@ import java.util.*;
 public class AddamsFamilyApplication {
 
         /********************************************************************************************
-        *  Keyboard object to get user input
-        ********************************************************************************************/
+         *  Keyboard object to get user input
+         ********************************************************************************************/
         private static Scanner userKeyboardDevice = new Scanner(System.in);
 
         /********************************************************************************************
-        * Constants representing menu options
-        ********************************************************************************************/
+         * Constants representing menu options
+         ********************************************************************************************/
         private static final String DISPLAY_ALL_ADDAMS_OPTION       = "Display all Addams'";
         private static final String DISPLAY_BY_NAME_OPTION          = "Find an Addams";
         private static final String CHANGE_AN_ADDAMS_NAME_OPTION    = "Change an Addams name";
@@ -32,16 +32,16 @@ public class AddamsFamilyApplication {
         private static final String EXIT_OPTION                     = "Exit";
 
         /********************************************************************************************
-        * Array of menu options display to users as needed
-        ********************************************************************************************/
+         * Array of menu options display to users as needed
+         ********************************************************************************************/
         private static final String[] mainMenuOptions = { DISPLAY_ALL_ADDAMS_OPTION
-                                                        , DISPLAY_BY_NAME_OPTION
-                                                        , CHANGE_AN_ADDAMS_NAME_OPTION
-                                                        , REMOVE_AN_ADDAMS_OPTION
-                                                        , DISPLAY_ADDAMS_IN_REVERSE_ORDER
-                                                        , REFRESH_DATA_FROM_FILE
-                                                        , EXIT_OPTION
-                                                        };
+                , DISPLAY_BY_NAME_OPTION
+                , CHANGE_AN_ADDAMS_NAME_OPTION
+                , REMOVE_AN_ADDAMS_OPTION
+                , DISPLAY_ADDAMS_IN_REVERSE_ORDER
+                , REFRESH_DATA_FROM_FILE
+                , EXIT_OPTION
+        };
         /********************************************************************************************
          * List of Addams Family members
          ********************************************************************************************/
@@ -60,57 +60,57 @@ public class AddamsFamilyApplication {
          ********************************************************************************************/
         public void run() throws FileNotFoundException {
 
-            startOfApplicationProcessing();           // Display greeting
-            String whatTheyChose = new String("");    // Hold response from user prompt
-            boolean shouldLoop = true;                // Main processing loop control variable
-        /********************************************************************************************
-        * main processing loop
-        ********************************************************************************************/
-            while(shouldLoop) {
-                 try {
-                        whatTheyChose = displayMenuAndGetResponse();          // Display main menu and get response
-                        System.out.println("\nYou chose: " + whatTheyChose);  // Display menu option chosen
+                startOfApplicationProcessing();           // Display greeting
+                String whatTheyChose = new String("");    // Hold response from user prompt
+                boolean shouldLoop = true;                // Main processing loop control variable
+                /********************************************************************************************
+                 * main processing loop
+                 ********************************************************************************************/
+                while(shouldLoop) {
+                        try {
+                                whatTheyChose = displayMenuAndGetResponse();          // Display main menu and get response
+                                System.out.println("\nYou chose: " + whatTheyChose);  // Display menu option chosen
 
-                        switch (whatTheyChose) {                              // Process based on menu option chosen
-                                case DISPLAY_ALL_ADDAMS_OPTION: {
-                                     displayAllPeople();
-                                     break;
-                                 }
-                                 case DISPLAY_BY_NAME_OPTION: {
-                                      displayByName();
-                                      break;
-                                 }
-                                 case CHANGE_AN_ADDAMS_NAME_OPTION: {
-                                      changePersonName();
-                                      break;
-                                 }
-                                case REMOVE_AN_ADDAMS_OPTION: {
-                                     removeAnAddams();
-                                     break;
+                                switch (whatTheyChose) {                              // Process based on menu option chosen
+                                        case DISPLAY_ALL_ADDAMS_OPTION: {
+                                                displayAllPeople();
+                                                break;
+                                        }
+                                        case DISPLAY_BY_NAME_OPTION: {
+                                                displayByName();
+                                                break;
+                                        }
+                                        case CHANGE_AN_ADDAMS_NAME_OPTION: {
+                                                changePersonName();
+                                                break;
+                                        }
+                                        case REMOVE_AN_ADDAMS_OPTION: {
+                                                removeAnAddams();
+                                                break;
+                                        }
+                                        case DISPLAY_ADDAMS_IN_REVERSE_ORDER: {
+                                                displayAllInReverseOrder();
+                                                break;
+                                        }
+                                        case REFRESH_DATA_FROM_FILE: {
+                                                theAddamsFamily.removeAll(theAddamsFamily);  // Remove all app data structure current entries
+                                                loadFamilyMembersFromFile();                 // Reload app data structure
+                                                break;
+                                        }
+                                        case EXIT_OPTION: {
+                                                shouldLoop = false;
+                                                break;
+                                        }
+                                        default: {    // if somehow an unexpected option was returned - throw an exception
+                                                throw new InvalidMenuResponseException("Invalid menu option " + whatTheyChose + " entered: ");
+                                        }
                                 }
-                                case DISPLAY_ADDAMS_IN_REVERSE_ORDER: {
-                                     displayAllInReverseOrder();
-                                     break;
-                                }
-                                case REFRESH_DATA_FROM_FILE: {
-                                     theAddamsFamily.removeAll(theAddamsFamily);  // Remove all app data structure current entries
-                                     loadFamilyMembersFromFile();                 // Reload app data structure
-                                     break;
-                                }
-                                 case EXIT_OPTION: {
-                                      shouldLoop = false;
-                                      break;
-                                 }
-                                 default: {    // if somehow an unexpected option was returned - throw an exception
-                                         throw new InvalidMenuResponseException("Invalid menu option " + whatTheyChose + " entered: ");
-                                 }
-                         }
-                 }
-                 catch(InvalidMenuResponseException exceptionObject) {
-                         System.out.println("\nUh-Oh, Looks like you entered an invalid response, please try again");
-                 }
-            }
-            endOfApplicationProcessing();     // Perform any clean up at end of the application
+                        }
+                        catch(InvalidMenuResponseException exceptionObject) {
+                                System.out.println("\nUh-Oh, Looks like you entered an invalid response, please try again");
+                        }
+                }
+                endOfApplicationProcessing();     // Perform any clean up at end of the application
         }  // End of main processing method - run()
 
 /**********************************************************************************************************
@@ -118,14 +118,14 @@ public class AddamsFamilyApplication {
  *********************************************************************************************************/
 
         /********************************************************************************************
-        * Display main menu, get response and return response
-        ********************************************************************************************/
+         * Display main menu, get response and return response
+         ********************************************************************************************/
         public String displayMenuAndGetResponse() {
 
                 int response = -1;  // initialize response to invalid value to be sure we store what user enters
 
                 System.out.println("\nYou rang??? WattaYaWannaDo? (enter number of option)\n");
-
+                // CANNOT use an iterator with a simple array (must use for or for each)
                 for (int i = 0; i < mainMenuOptions.length; i++) {              // Loop through menu option array
                         System.out.println(i + 1 + ". " + mainMenuOptions[i]);  //     display a menu option
                 }
@@ -135,15 +135,15 @@ public class AddamsFamilyApplication {
                         return mainMenuOptions[response - 1];                      // Return menu option from option array
                 }
                 catch (NumberFormatException exceptionObject) {
-                         throw new InvalidMenuResponseException("Invalid menu option " + response + " entered: ");
+                        throw new InvalidMenuResponseException("Invalid menu option " + response + " entered: ");
                 }
                 catch (ArrayIndexOutOfBoundsException exceptionObject) {
-                         throw new InvalidMenuResponseException("Invalid menu option " + response + " entered");
+                        throw new InvalidMenuResponseException("Invalid menu option " + response + " entered");
                 }
         }  // End of displayMenuAndGetResponse()
         /********************************************************************************************
-        * Starting of application setup processing - display welcome screen
-        ********************************************************************************************/
+         * Starting of application setup processing - display welcome screen
+         ********************************************************************************************/
         public void startOfApplicationProcessing() throws FileNotFoundException{
 
                 // Assign error messages to be written a file instead of the screen
@@ -174,12 +174,15 @@ public class AddamsFamilyApplication {
                 String borderIcon = Emogis.TELEVISION;
 
                 System.out.println("\n"+ (borderIcon + " ").repeat(13)) ;
-                for (Person anAddams : theAddamsFamily) {
-                    personCount++;
-                    System.out.printf("%s %2d. %-30s %-8s",borderIcon,personCount,anAddams.getName(),borderIcon);
-                    if (personCount != theAddamsFamily.size()) {
-                        System.out.println("");
-                    }
+                // for (Person anAddams : theAddamsFamily) {
+                Iterator<Person> personIterator = theAddamsFamily.iterator(); // Define an Iterator for the list
+                while(personIterator.hasNext()) { // Loop while the Iterator has a next value
+                        Person anAddams = personIterator.next(); // Instantiate an object and get the next value from Iterator
+                        personCount++;
+                        System.out.printf("%s %2d. %-30s %-8s",borderIcon,personCount,anAddams.getName(),borderIcon);
+                        if (personCount != theAddamsFamily.size()) {
+                                System.out.println("");
+                        }
                 }
                 System.out.println("\n"+ (borderIcon + " ").repeat(13)) ;
         }
@@ -199,8 +202,11 @@ public class AddamsFamilyApplication {
                 System.out.println("\nNumber of Addams' found containing " + whatTheyWant.getSearchValue() + " in name: " + listOfAddams.size());
 
                 // Loop through extracted entries and display them one at a time
-                for(Person anAddams : listOfAddams) {
-                    System.out.printf("%10d %-30s\n",anAddams.getId(),anAddams.getName());
+                // for(Person anAddams : listOfAddams) {
+                Iterator<Person> anIterator = listOfAddams.iterator(); //Instantiate an Iterator for the list
+                while(anIterator.hasNext()) { // Loop while the Iterator has a next object
+                        Person anAddams = anIterator.next(); // Get the next object from the Iterator
+                        System.out.printf("%10d %-30s\n",anAddams.getId(),anAddams.getName());
                 }
         }
         /********************************************************************************************
@@ -217,7 +223,10 @@ public class AddamsFamilyApplication {
                 listOfAddams = findAnAddamsByName(whatTheyWant.getSearchValue().strip(),whatTheyWant.isCaseSensitiveSearch());
 
                 // Loop through extracted entries, display each one and ask for new values
-                for(Person anAddams : listOfAddams) {
+                //for(Person anAddams : listOfAddams) { // Replaced by an Iterator
+                ListIterator<Person> cousinIterator = listOfAddams.listIterator(); // Define an iterator for the list
+                while(cousinIterator.hasNext()) { // Loop while the Iterator has a next object
+                        Person anAddams = cousinIterator.next(); // Get the next object from the Iterator
                         // Show user the current name from extracted entries
                         System.out.println("Found: " + anAddams);
 
@@ -251,7 +260,10 @@ public class AddamsFamilyApplication {
                 aListOfAddams = findAnAddamsByName(whatTheyWant.getSearchValue().strip(), whatTheyWant.isCaseSensitiveSearch());
 
                 // Loop through extracted entries, display each one and ask if user wants to delete it
-                for (Person anAddams : aListOfAddams) {
+                // for (Person anAddams : aListOfAddams) { // Replaced by an Iterator to avoid the concurrentModificatoinException
+                ListIterator<Person> anotherIterator = aListOfAddams.listIterator(); // Define an Iterator for the list
+                while(anotherIterator.hasNext()) { // Loop while the Iterator has a next object
+                        Person anAddams = anotherIterator.next(); // Get the next object from the Iterator
                         // Show user the current entry from extracted entries
                         System.out.println("Found: " + anAddams);
 
@@ -261,10 +273,11 @@ public class AddamsFamilyApplication {
 
                         if (deleteResponse.startsWith("Y")) {             // If user wants to delete entry...
                                 if (theAddamsFamily.remove(anAddams)) {   //    remove it from the data structure
-                                    aListOfAddams.remove(anAddams);       //       and from the extracted entries
-                                    System.out.println("----- Removal of " + anAddams.getName() + " was successful");
+                                        // aListOfAddams.remove(anAddams);       //       and from the extracted entries
+                                        anotherIterator.remove(); // Use Iterator.remove instead of List.remove
+                                        System.out.println("----- Removal of " + anAddams.getName() + " was successful");
                                 } else {                                  // if user does not want to delete entry...
-                                    System.out.println("----- Removal of " + anAddams.getName() + " failed");
+                                        System.out.println("----- Removal of " + anAddams.getName() + " failed");
                                 }
                         }
                 }
@@ -378,7 +391,19 @@ public class AddamsFamilyApplication {
          ********************************************************************************************/
         public void displayAllInReverseOrder() {
                 // TODO: Add code to implement this feature
-                System.out.println("\n" + "-".repeat(60) +"\n----- Sorry, this feature has not been implemented yet -----\n"
-                                                         + "-".repeat(60) + "\n");
+                // System.out.println("\n" + "-".repeat(60) +"\n----- Sorry, this feature has not been implemented yet -----\n"
+                // + "-".repeat(60) + "\n");
+                // Define a List iterator to start processing at the end of the list
+                // listIterator(starting-position-within-the-list) - default is first element
+                // list.size() - return the number of elements in the List
+                // list.size()-1 - return the highest valid index in the List
+                // Loop while List iterator has a previous entry
+                //      retrieve the previous entry
+                //      process it
+                ListIterator<Person> aListIterator = theAddamsFamily.listIterator(theAddamsFamily.size());
+                while(aListIterator.hasPrevious()) {
+                        Person aPerson = aListIterator.previous();
+                        System.out.println(aPerson);
+                }
         }
 } // End of ApplicationProgram class
